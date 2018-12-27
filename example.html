@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset=utf-8 />
+  <title>Lab 04 Example Template</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+</head>
+
+<body>
+
+
+  <script>
+    /* JavaScript code goes here! */
+
+    var myNums = [1, 2, 3];
+
+    logNumsToConsole(myNums, 'hello');
+
+    function logNumsToConsole(myNums, greeting) {
+      console.log(myNums, greeting);
+      for (var i = 0; i < myNums.length; i++) {
+        var doubleNumValue = doubleNum(myNums[i]);
+        console.log(doubleNumValue);
+      }
+    }; // end logNumsToConsole
+
+    function doubleNum(number) {
+      console.log(number)
+      return number * 2;
+    };
+  </script>
+
+</body>
+
+</html>

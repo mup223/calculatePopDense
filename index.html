@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<!-- Use the HTML and CSS you developed in module 01 to fill out this template.-->
+
+<head>
+  <meta charset=utf-8 />
+  <title>Lab 04 Work Template</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css" />
+
+  <!-- Add links to external css stylesheets. -->
+  <link href="#" rel="stylesheet" />
+  <link href="#" rel="stylesheet" />
+  <link href="#" rel="stylesheet" />
+
+  <style>
+		header, footer, section {
+			width: 80%;
+			margin: 10px auto;
+		}
+
+	  #map {
+		  width: 100%;
+		  height: 500px;
+	  }
+    /* Add custom styles. */
+
+  </style>
+</head>
+
+<body>
+	<header>
+		<h1>Population density for three cities</h1>
+	</header>
+
+	<section>
+		<div id='map'></div>
+	</section>
+
+
+	<section>
+
+		<button id='map-cities'>Map Cities</button>
+
+		<h2>Calculating density measures on the fly</h2>
+
+		<p>This lab will use your JavaScript functions to accept user input and calculate population density measures for three cities in two different units. You will store your city information as arrays and will iterate through them and use functions to calculate density.</p>
+
+		<p>You can use the city arrays you built last week. Consider polishing the look of your pages by experimenting with CSS and HTML.</p>
+	</section>
+
+	<footer>
+		<p>Map authored by me, Matthew</p>
+		<hr>
+
+		<a href="https://newmapsplus.github.io">
+			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png" alt="University of Kentucky Geography">
+		</a>
+
+		<a href="https://uky-gis.github.io">
+			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-geography-75px-h.png" alt="University of Kentucky Geography">
+		</a>
+	</footer>
+
+	<script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"></script>
+
+	<script>
+		// map options
+		var options = {
+			center: [20, -20],
+			zoom: 2
+		}
+
+		// creates the Leaflet map
+		var map = L.map('map', options);
+
+		 // Get basemap URL from Leaflet Providers
+		 var basemap_url = 'https://{s}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png'
+
+			// Get basemap attributes from Leaflet Providers
+	var basemap_attributes = {
+  		attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		  }
+
+		// requests some map tiles
+		var tiles = L.tileLayer(basemap_url, basemap_attributes);
+
+
+
+		// adds these tiles to the map
+		map.addLayer(tiles);
+
+		//    var cities = // write 3 city names as Strings within an array
+    var cities = ['Boston', 'Vancouver', 'Jacksonville']
+		//    var cityCoords = // write a two-dimensional array of the coordinates for each city
+    var cityCoords = [[42.3140089,-71.2504676],[49.2577143,-123.1939433],[30.3449153,-81.8231903]]
+		//    var cityPops = // write the populations of the 3 cities as Numbers within an array
+    var cityPops = [685094,631490,892062]
+		//    var cityAreas = // write the areas of the 3 cities as Numbers within an array
+    var cityArea = [48.42,114.97,747.45]
+		//	  NOTE. You can use the arrays you built in Lab 3, just make sure you keep track of your variable names
+
+		var button = document.getElementById("map-cities");
+
+		button.addEventListener("click", function() {
+
+			var units = prompt('Enter the units for calculating population density', 'Enter "miles" or "km"');
+			mapCities(units)
+		});
+    // addEventListener callback function ends here
+		
+
+		// write a function here named mapCities so that it accepts units as a parameter
+    function mapCities(units) {
+      for (i = 0; i < cities.length; i++) {
+        var density = calcPopDensity(cityPops[i], cityArea[i], units) 
+				var namePop = cities[i] 
+										+ '<br>population: ' 
+										+ cityPops[i] 
+										+ '<br>density: ' 
+										+ density.toLocaleString() 
+										+ " pop/sq " 
+										+ units;
+        var popAlt = `${cities[i]}<br>population: ${cityPops[i]}<br>density: ${density.toLocaleString()} pop/sq ${units}`
+				console.log(popAlt)
+				L.marker(cityCoords[i]).addTo(map)
+           .bindPopup(namePop);
+        };
+    };
+
+		// write a function named calcPopDensity here so that it accepts a
+		// single city's population, area, and the value for units ('miles' or 'km')
+		// entered by the user within the prompt statement
+
+    function calcPopDensity(popu, area, units){
+      if (units == 'km') {
+        var km_conv = area*1.60934 // What units? This is 2.59 sq km in 1 sq mi
+        return popu/km_conv
+      }
+      else {
+        return popu/area
+      }
+    }
+
+	</script>
+
+</body>
+
+</html>
+
+<script>
